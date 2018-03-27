@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 def cmd = 'git rev-list HEAD --count'
-//def gitVersion = cmd.execute().text.trim().toInteger()
+def gitVersion = cmd.execute().text.trim().toInteger()
 android {
     compileSdkVersion parent.ext.compileSdkVersion
     buildToolsVersion parent.ext.buildToolsVersion
@@ -8,17 +8,17 @@ android {
         applicationId "com.hxm.rxjava2retrofit2mvp"
         minSdkVersion parent.ext.minSdkVersion
         targetSdkVersion parent.ext.targetSdkVersion
-        versionCode 1
+        versionCode gitVersion
         versionName "V1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 
     signingConfigs {
-        //jks密码文件路径，根据实际路径修改
+        //jks密码文件路径，根据实际路径修改,properties见项目里的release.properties
         def proPath = 'D:\\Android\\keystore\\lovegx\\release.properties'
         //jks文件路径，根据实际路径修改
-        def jksPath = 'D:\\Android\\keystore\\lovegx\\lovegx.jks'
+        def jksPath = 'D:\\Android\\keystore\\lovegx\\xxxx.jks'
         Properties properties = new Properties()
         File propFile = project.file(proPath)
         if (propFile.exists()) {
