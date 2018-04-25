@@ -24,14 +24,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView> imple
             Observable.timer(2, TimeUnit.SECONDS)
                     .doOnSubscribe(new Consumer<Disposable>() {
                         @Override
-                        public void accept(Disposable disposable) throws Exception {
+                        public void accept(Disposable disposable) {
                             getView().showLoginDialog();
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnTerminate(new Action() {
                         @Override
-                        public void run() throws Exception {
+                        public void run() {
                             getView().dismissDialog();
                         }
                     })
