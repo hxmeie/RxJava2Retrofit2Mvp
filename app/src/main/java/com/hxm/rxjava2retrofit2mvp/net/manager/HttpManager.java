@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -39,12 +39,13 @@ public class HttpManager {
 //                .addInterceptor(new CacheInterceptor())
                 .retryOnConnectionFailure(true)
 //                .cache(cache)
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
+//                .sslSocketFactory()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
         retrofit = new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://www.agx.com/")
                 .client(client)

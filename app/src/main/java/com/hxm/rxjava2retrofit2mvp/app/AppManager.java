@@ -42,7 +42,7 @@ public class AppManager {
     }
 
 
-    public Activity curremtActivity() {
+    public Activity currentActivity() {
         return activityStack.lastElement();
     }
 
