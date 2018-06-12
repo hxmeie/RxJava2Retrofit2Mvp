@@ -5,13 +5,18 @@ import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
 import com.hxm.rxjava2retrofit2mvp.R;
+import com.hxm.rxjava2retrofit2mvp.entity.Result;
 import com.hxm.rxjava2retrofit2mvp.mvpbase.BaseMvpActivity;
+import com.hxm.rxjava2retrofit2mvp.net.Request;
+import com.hxm.rxjava2retrofit2mvp.net.manager.BaseObserver;
+import com.hxm.rxjava2retrofit2mvp.net.manager.NetException;
 import com.hxm.rxjava2retrofit2mvp.presenter.LoginPresenter;
 import com.hxm.rxjava2retrofit2mvp.presenter.contract.LoginContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseMvpActivity<LoginPresenter> implements LoginContract.LoginView {
 
@@ -34,6 +39,24 @@ public class MainActivity extends BaseMvpActivity<LoginPresenter> implements Log
     @OnClick(R.id.btnLogin)
     void onLoginClick() {
         presenter.doLogin("laal", "1233333");
+        Request.getInstance().getResult()
+                .subscribe(new BaseObserver<Result>() {
+
+                    @Override
+                    public void disposable(Disposable d) {
+                        addDisposable(d);
+                    }
+
+                    @Override
+                    public void onSuccess(Result result) {
+
+                    }
+
+                    @Override
+                    public void onError(NetException.ResponseThrowable e) {
+
+                    }
+                });
     }
 
     @Override

@@ -2,8 +2,13 @@ package com.hxm.rxjava2retrofit2mvp.net.manager;
 
 
 import com.hxm.rxjava2retrofit2mvp.BuildConfig;
+import com.hxm.rxjava2retrofit2mvp.app.AppContext;
+import com.hxm.rxjava2retrofit2mvp.net.converter.ConverterFactory;
 
+import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -14,7 +19,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by hxm on 2018/3/11.
@@ -39,15 +43,31 @@ public class HttpManager {
 //                .addInterceptor(new CacheInterceptor())
                 .retryOnConnectionFailure(true)
 //                .cache(cache)
-//                .sslSocketFactory()
+                .addInterceptor(new HeaderInterceptor())
+                .sslSocketFactory(SSLHelper.getSSLCertification(AppContext.getInstance()), new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) {
+
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) {
+
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                })
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://www.agx.com/")
+                .addConverterFactory(ConverterFactory.create())
+                .baseUrl("https://******.***cf.com/FCInterface/")
                 .client(client)
                 .build();
     }
